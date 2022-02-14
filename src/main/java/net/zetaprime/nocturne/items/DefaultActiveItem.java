@@ -7,7 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.InputEvent;
 
-public class DefaultActiveItem extends Item implements ActiveItem {
+public class DefaultActiveItem extends Item implements IActiveItem {
     public DefaultActiveItem(Item.Properties prop) { super(prop); }
 
     // Item overrides

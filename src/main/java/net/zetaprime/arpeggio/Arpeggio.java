@@ -11,9 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.common.Mod;
@@ -23,13 +21,11 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.zetaprime.arpeggio.items.FirearmItem;
-import net.zetaprime.nocturne.items.ActiveItem;
+import net.zetaprime.nocturne.items.IActiveItem;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import top.theillusivec4.curios.api.SlotTypeMessage;
 import top.theillusivec4.curios.api.SlotTypePreset;
-
-import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod("arpeggio")
@@ -118,17 +114,18 @@ public class Arpeggio {
         ItemStack mh = p.getItemInHand(InteractionHand.MAIN_HAND);
         ItemStack oh = p.getItemInHand(InteractionHand.OFF_HAND);
         if (event.isAttack()) {
-          if (mh.getItem() instanceof ActiveItem ai) {
+          if (mh.getItem() instanceof IActiveItem ai) {
               if (ai.interceptsClick(mh, InteractionHand.MAIN_HAND, event)) { event.setCanceled(true); return; }
           }
         } else {
-            if (mh.getItem() instanceof ActiveItem ai) {
+            if (mh.getItem() instanceof IActiveItem ai) {
                 if (ai.interceptsClick(mh, InteractionHand.MAIN_HAND, event)) { event.setCanceled(true); return; }
             }
             if (event.isUseItem() && mh.getUseAnimation() != UseAnim.NONE) return;
-            if (oh.getItem() instanceof ActiveItem ai) {
-                if (ai.interceptsClick(oh, InteractionHand.OFF_HAND, event)) { event.setCanceled(true); /*return;*/ }
+            if (oh.getItem() instanceof IActiveItem ai) {
+                if (ai.interceptsClick(oh, InteractionHand.OFF_HAND, event)) { event.setCanceled(true); return; }
             }
         }
+        //
     }
 }
